@@ -1,4 +1,4 @@
-package Operaciones;
+import Operaciones.Calculadora;
 
 import static org.junit.Assert.*;
 
