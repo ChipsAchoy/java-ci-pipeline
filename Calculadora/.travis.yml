@@ -1,3 +1,0 @@
-Language: java
-Jdk: oraclejdk16
-install: ant deps
