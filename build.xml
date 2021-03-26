@@ -2,7 +2,7 @@
 <project name="java-ci-pipeline" default="all">
   
   
-  <property file="calculadora.properties"/>
+  <property file="build.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
   <!-- 
   <property name="skip.tests" value="true"/>
@@ -131,23 +131,6 @@
   <property name="project.jdk.home" value="${jdk.home.16}"/>
   <property name="project.jdk.bin" value="${jdk.bin.16}"/>
   <property name="project.jdk.classpath" value="jdk.classpath.16"/>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <fileset dir="${javac2.home}">
-      <include name="jdom.jar"/>
-      <include name="asm-all*.jar"/>
-      <include name="forms-*.jar"/>
-      <include name="forms_rt.jar"/>
-    </fileset>
-    <fileset dir="${idea.home}/plugins/java/lib">
-      <include name="javac2.jar"/>
-    </fileset>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
@@ -238,17 +221,17 @@
   </path>
   
   
-  <target name="compile.module.calculadora" depends="compile.module.calculadora.production,compile.module.calculadora.test" description="Compile module Calculadora"/>
+  <target name="compile.module.calculadora" depends="compile.module.calculadora.production,compile.module.calculadora.tests" description="Compile module Calculadora"/>
   
-  <target name="compile.module.calculadora.production" depends="register.custom.compilers" description="Compile module Calculadora; production classes">
+  <target name="compile.module.calculadora.production" description="Compile module Calculadora; production classes">
     <mkdir dir="${calculadora.output.dir}"/>
-    <javac2 destdir="${calculadora.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calculadora}/javac">
+    <javac destdir="${calculadora.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calculadora}/javac">
       <compilerarg line="${compiler.args.calculadora}"/>
       <bootclasspath refid="calculadora.module.bootclasspath"/>
       <classpath refid="calculadora.module.production.classpath"/>
       <src refid="calculadora.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.calculadora"/>
-    </javac2>
+    </javac>
     
     <copy todir="${calculadora.output.dir}">
       <fileset dir="${module.calculadora.basedir}/src">
@@ -258,15 +241,15 @@
     </copy>
   </target>
   
-  <target name="compile.module.calculadora.test" depends="register.custom.compilers,compile.module.calculadora.production" description="compile module Calculadora; test classes" unless="skip.tests">
+  <target name="compile.module.calculadora.tests" depends="compile.module.calculadora.production" description="compile module Calculadora; test classes" unless="skip.tests">
     <mkdir dir="${calculadora.testoutput.dir}"/>
-    <javac2 destdir="${calculadora.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calculadora}/javac">
+    <javac destdir="${calculadora.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calculadora}/javac">
       <compilerarg line="${compiler.args.calculadora}"/>
       <bootclasspath refid="calculadora.module.bootclasspath"/>
       <classpath refid="calculadora.module.classpath"/>
       <src refid="calculadora.module.test.sourcepath"/>
       <patternset refid="excluded.from.compilation.calculadora"/>
-    </javac2>
+    </javac>
     
     <copy todir="${calculadora.testoutput.dir}">
       <fileset dir="${module.calculadora.basedir}/tests">
