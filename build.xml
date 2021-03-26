@@ -232,7 +232,7 @@
   </path>
   
   
-  <target name="compile.module.calculadora" depends="compile.module.calculadora.production,test" description="Compile module Calculadora"/>
+  <target name="compile.module.calculadora" depends="compile.module.calculadora.production,compile.module.calculadora.tests" description="Compile module Calculadora"/>
   
   <target name="compile.module.calculadora.production" depends="register.custom.compilers" description="Compile module Calculadora; production classes">
     <mkdir dir="${calculadora.output.dir}"/>
@@ -252,7 +252,7 @@
     </copy>
   </target>
   
-  <target name="test" depends="register.custom.compilers,compile.module.calculadora.production" description="compile module Calculadora; test classes" unless="skip.tests"/>
+  <target name="compile.module.calculadora.tests" depends="register.custom.compilers,compile.module.calculadora.production" description="compile module Calculadora; test classes" unless="skip.tests"/>
   
   <target name="clean.module.calculadora" description="cleanup module">
     <delete dir="${calculadora.output.dir}"/>
@@ -300,7 +300,6 @@
     <!-- Delete temporary files -->
     <delete dir="${artifacts.temp.dir}"/>
   </target>
-
 
 
   <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
