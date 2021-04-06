@@ -9,21 +9,25 @@ public class CalculadoraTest {
     public void suma() {
         assertEquals(7, calc.suma(4,3));
         assertEquals(1, calc.suma(-7,8));
+        System.out.println("Funciona xd");
     }
     @org.junit.Test
     public void resta() {
         assertEquals(4, calc.resta(7,3));
         assertEquals(-23, calc.resta(2,25));
+        System.out.println("Funciona xd");
     }
     @org.junit.Test
     public void mult() {
         assertEquals(21, calc.multiplicacion(7,3));
         assertEquals(-18, calc.multiplicacion(-9,2));
+        System.out.println("Funciona xd");
     }
     @org.junit.Test
     public void div() {
         assertEquals(-4, calc.division(-9,2));
         assertEquals(7, calc.division(21,3));
+        System.out.println("Funciona xd");
     }
 
 }
